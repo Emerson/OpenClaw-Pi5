@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.13"
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-6"
+      },
+      "workspace": "/home/admin/.openclaw/workspace",
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "heartbeat": {
+        "every": "60m"
+      }
+    }
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "gemini",
+        "gemini": {
+          "apiKey": "REDACTED — set in live config on Pi"
+        }
+      }
+    },
+    "elevated": {
+      "enabled": true,
+      "allowFrom": {
+        "slack": [
+          "U0A7A2JB8MN"
+        ]
+      }
+    },
+    "exec": {
+      "host": "gateway",
+      "security": "full"
+    }
+  },
+  "messages": {
+    "tts": {
+      "auto": "tagged",
+      "provider": "edge",
+      "edge": {
+        "enabled": true,
+        "voice": "en-US-GuyNeural",
+        "lang": "en-US",
+        "outputFormat": "audio-24khz-48kbitrate-mono-mp3"
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "approvals": {
+    "exec": {
+      "enabled": true,
+      "mode": "targets",
+      "agentFilter": [
+        "main"
+      ],
+      "targets": [
+        {
+          "channel": "slack",
+          "to": "U0A7A2JB8MN"
+        }
+      ]
+    }
+  },
+  "session": {
+    "dmScope": "per-channel-peer",
+    "reset": {
+      "mode": "idle",
+      "idleMinutes": 10080
+    }
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "command-logger": { "enabled": true },
+        "session-memory": { "enabled": true },
+        "bootstrap-extra-files": { "enabled": true },
+        "boot-md": { "enabled": true }
+      }
+    }
+  },
+  "channels": {
+    "slack": {
+      "mode": "socket",
+      "enabled": true,
+      "botToken": "REDACTED — set in live config on Pi",
+      "appToken": "REDACTED — set in live config on Pi",
+      "userTokenReadOnly": true,
+      "groupPolicy": "open",
+      "streaming": "partial",
+      "nativeStreaming": true
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "controlUi": {
+      "allowedOrigins": [
+        "http://localhost:18789",
+        "http://127.0.0.1:18789",
+        "http://192.168.2.160:18789"
+      ]
+    },
+    "auth": {
+      "mode": "token",
+      "token": "REDACTED — set in live config on Pi"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "plugins": {
+    "allow": [
+      "slack",
+      "voice-call",
+      "lossless-claw",
+      "whatsapp"
+    ],
+    "entries": {
+      "slack": { "enabled": true },
+      "lossless-claw": {
+        "enabled": true,
+        "config": {
+          "freshTailCount": 32,
+          "contextThreshold": 0.75,
+          "incrementalMaxDepth": -1,
+          "ignoreSessionPatterns": ["agent:*:cron:**"],
+          "summaryProvider": "anthropic",
+          "summaryModel": "claude-haiku-4-5"
+        }
+      }
+    }
+  }
+}

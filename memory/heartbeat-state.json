@@ -1,0 +1,12 @@
+{
+  "lastChecks": {
+    "email": 1742352623,
+    "calendar": 1742817960,
+    "todos": 1742352623,
+    "weather": 1742298300,
+    "crawl": 1742322780,
+    "attunewell": 1742817449
+  },
+  "lastSlackPing": 1742817449,
+  "notes": "Gmail + Calendar OAuth tokens expired as of 2026-03-24 morning. Need re-auth. Emerson will do later today."
+}

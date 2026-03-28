@@ -1,0 +1,37 @@
+# Secrets — never commit
+.secrets/
+*.env
+*.key
+*.pem
+
+# Node
+node_modules/
+
+# Temp / scratch
+tmp/
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OpenClaw runtime state
+.openclaw/
+
+# Scratch scripts (one-off, not useful for reference)
+add_enercare_proper.py
+add_enercare_section.py
+create_indoor_page.py
+nuke_and_rebuild.py
+rebuild_calendar.py
+rebuild_calendar_v2.py
+insert_events.py
+kids-activities-payload.json
+vht-declare.js
+vht-step2.png
+waste-lookup.js
+waste-lookup2.js
+attunewell/
