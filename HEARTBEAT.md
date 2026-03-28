@@ -5,7 +5,7 @@
 - Pull ALL calendars: `GOG_KEYRING_PASSWORD="cliff" GOG_ACCOUNT=emerson.lackey@gmail.com gog cal events --calendars "1,2,3,6,7,8" --from today --days 2 --max 50 -p`
 - Include: events, appointments, birthdays, anything on any calendar
 - Check Gmail for key emails (school, family, financial, anything needing response — skip marketing/newsletters/receipts)
-- On weekends (Sat/Sun): check Notion Kids Events DB (32619a09-5fb6-8122-a033-c4f4e57fda9e) for upcoming kids events
+- On weekends (Sat/Sun): use the kids-activities skill to check the Events DB for upcoming kids events
 - If nothing notable: still send — good morning + system status (Pi uptime, last cron run, etc.)
 - Format: greeting → today's calendar → tomorrow's calendar → emails → kids events (weekends) → system status if quiet
 
@@ -38,12 +38,9 @@
 - Skip anything touching auth, payments, or data migrations without checking with Emerson first
 
 ## Background Tasks (Kids Activity Crawl)
-- At each heartbeat during reasonable hours (8am–10pm), crawl 1–2 kid activity sources
-- **Source of truth: Notion Sources DB (32619a09-5fb6-8158-b075-c6094ca57d0b)** — NOT TASKS.md
-- Query the DB sorted by Last Scraped ascending to find the stalest sources
-- After scraping: update `Last Scraped` on the source record, prune past events, regenerate the Activities page
-- Full playbook: `memory/kids-activities-system.md`
-- TASKS.md is legacy reference only — do not rely on its checkboxes
+- At each heartbeat during reasonable hours (8am–10pm), run the kids-activities skill
+- Follow the **Heartbeat Scrape** workflow in the skill: pick 3–4 stalest sources from the Sources DB, scrape, prune, regenerate the Activities page
+- The skill has the full playbook, source list, and Notion API reference
 
 ## Journal Prompts
 - Check `memory/journal-system.md` for next prompt due date
