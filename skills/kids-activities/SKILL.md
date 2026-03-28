@@ -54,9 +54,20 @@ Do NOT create a new top-level Notion page for the source.
 
 ## Workflow 3: Regenerating the Calendar Page
 
-After every scrape + prune cycle, fully rewrite the Kids Activities page.
+After every scrape + prune cycle, rewrite the **content blocks** of the Kids Activities page.
 
-**Page structure:**
+### ⚠️ Critical rules — read before touching any page
+- **NEVER trash or delete the Activities Page or Rainy Day Page** — these are permanent pages that Emerson owns
+- **NEVER use `in_trash: true` on a page** — only on individual event records in the Events DB
+- To "rewrite" a page: fetch its existing child blocks, delete those blocks individually, then append fresh blocks
+- The page itself (`32619a09-5fb6-81e9-a178-dd3722bb9d4f`) must always survive
+
+### Block-replace procedure
+1. `GET /v1/blocks/{page_id}/children` — list current child blocks
+2. For each block ID returned: `DELETE /v1/blocks/{block_id}` — remove old content
+3. `PATCH /v1/blocks/{page_id}/children` — append the new blocks
+
+### Page structure
 ```
 🗓 This Weekend — callout block with events for upcoming Sat–Sun
 🔄 Recurring Weekly Options — ongoing drop-ins, markets, etc.
@@ -87,6 +98,8 @@ Full source list with URLs and crawl notes: `references/sources.md`
 ---
 
 ## What NOT to do
+- ❌ **Never trash or delete the Activities Page or Rainy Day Page** — only delete individual child blocks when regenerating
+- ❌ Never use `in_trash: true` on anything except stale event records in the Events DB
 - ❌ Never scrape all sources at once — 3–4 per heartbeat, stalest first
 - ❌ Never insert duplicate events — query by Event Name + Date first
 - ❌ Never leave Last Scraped blank after a successful scrape

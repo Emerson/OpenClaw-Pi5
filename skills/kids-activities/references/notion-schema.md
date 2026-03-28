@@ -137,6 +137,53 @@ curl -X PATCH "https://api.notion.com/v1/pages/PAGE_ID" \
 
 ---
 
+---
+
+## Page Block Management (for regenerating the Activities Page)
+
+⚠️ Never trash the page itself. Only delete its child blocks, then append new ones.
+
+### Step 1 — List current child blocks
+```bash
+curl "https://api.notion.com/v1/blocks/PAGE_ID/children?page_size=100" \
+  -H "Authorization: Bearer ntn_y68792728861qhEo5Tmug90IfYQxRMDdCIqyoOzTPO1dC3" \
+  -H "Notion-Version: 2022-06-28"
+```
+
+### Step 2 — Delete each child block
+```bash
+curl -X DELETE "https://api.notion.com/v1/blocks/BLOCK_ID" \
+  -H "Authorization: Bearer ntn_y68792728861qhEo5Tmug90IfYQxRMDdCIqyoOzTPO1dC3" \
+  -H "Notion-Version: 2022-06-28"
+```
+Repeat for every block ID returned in Step 1.
+
+### Step 3 — Append new content blocks
+```bash
+curl -X PATCH "https://api.notion.com/v1/blocks/PAGE_ID/children" \
+  -H "Authorization: Bearer ntn_y68792728861qhEo5Tmug90IfYQxRMDdCIqyoOzTPO1dC3" \
+  -H "Content-Type: application/json" -H "Notion-Version: 2022-06-28" \
+  -d '{
+    "children": [
+      {
+        "object": "block",
+        "type": "callout",
+        "callout": {
+          "rich_text": [{"type": "text", "text": {"content": "🗓 This Weekend\n..."}}],
+          "icon": {"type": "emoji", "emoji": "🗓"}
+        }
+      },
+      {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {"rich_text": [{"type": "text", "text": {"content": "🔄 Recurring Weekly Options"}}]}
+      }
+    ]
+  }'
+```
+
+---
+
 ## Page IDs
 
 | Page | ID | URL |
